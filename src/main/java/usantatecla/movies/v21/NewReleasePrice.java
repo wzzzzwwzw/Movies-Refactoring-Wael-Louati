@@ -10,7 +10,7 @@ public class NewReleasePrice extends Price {
 	
 	@Override
 	public int getFrequentRenterPoints(int daysRented) {
-		if (daysRented > Price.DAYS_RENTED_THRESHOLD) {
+		if (daysRented > Price.DAYS_RENTED_THRESHOLD_NEW_RELEASE) {
 			return Price.FREQUENT_RENTER_POINTS_NEW_RELEASE;
 		} else {
 			return super.getFrequentRenterPoints(daysRented);
