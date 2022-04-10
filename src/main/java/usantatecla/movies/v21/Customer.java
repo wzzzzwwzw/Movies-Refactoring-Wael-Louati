@@ -40,7 +40,7 @@ public class Customer {
 		Iterator<Rental> rentals = this.rentals.iterator();
 		while (rentals.hasNext()) {
 			final Rental each = rentals.next();
-			result += each.getCharge();
+			result += rentals.next().getCharge();
 		}
 		return result;
 	}
@@ -50,7 +50,7 @@ public class Customer {
 		Iterator<Rental> rentals = this.rentals.iterator();
 		while (rentals.hasNext()) {
 			final Rental each = rentals.next();
-			result += each.getFrequentRenterPoints();
+			result += rentals.next().getFrequentRenterPoints();
 		}
 		return result;
 	}
