@@ -2,11 +2,17 @@ package usantatecla.movies.v21;
 
 public abstract class Price {
 
-	protected static final double CHARGE = 2.0;
+	protected static final double CHARGE_REGULAR = 2.0;
 
 	protected static final double EXTRA_CHARGE = 1.5;
 
-	protected static final int DAYS_RENTED_THRESHOLD = 2;
+	protected static final int DAYS_RENTED_THRESHOLD_REGULAR = 2;
+
+	private static final double CHARGE_NEW_RELEASE = 3;
+
+	private static final int DAYS_RENTED_THRESHOLD = 1;
+
+	private static final int FREQUENT_RENTER_POINTS_NEW_RELEASE = 2;
 
 	private static final int FREQUENT_RENTER_POINTS = 1;
 	
