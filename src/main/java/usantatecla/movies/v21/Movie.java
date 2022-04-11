@@ -23,15 +23,15 @@ public class Movie {
 	static final int FREQUENT_RENTER_POINTS = 1;
 
 
-	private Price price;
+
 
 	private String title;
 
 	private MovieType movieType;
 
-	public Movie(String title, Price price, MovieType movieType) {
+	public Movie(String title, MovieType movieType) {
 		this.title = title;
-		this.price = price;
+
 		this.movieType = movieType;
 	}
 
@@ -39,29 +39,58 @@ public class Movie {
 	public double getCharge(int daysRented) {
 
 		if(this.movieType == MovieType.REGULAR) {
-			return price.getChargeRegular(daysRented);
+			return this.getChargeRegular(daysRented);
 		}
 		else if(this.movieType == MovieType.NEW_RELEASE) {
-			return price.getChargeNewReleases(daysRented);
+			return this.getChargeNewReleases(daysRented);
 		}
 		else {
-			return price.getChargeChildren(daysRented);
+			return this.getChargeChildren(daysRented);
 		}
+	}
+
+	public double getChargeRegular(int daysRented) {
+		double result = Movie.CHARGE_REGULAR;
+		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_REGULAR) {
+			result += (daysRented - Movie.DAYS_RENTED_THRESHOLD_REGULAR) * Movie.EXTRA_CHARGE_REGULAR;
+		}
+		return result;
+	}
+
+	public double getChargeNewReleases(int daysRented) {
+		return Movie.CHARGE_NEW_RELEASE;
+	}
+
+	public double getChargeChildren(int daysRented) {
+		double result = Movie.CHARGE_CHILDREN;
+		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_CHILDREN) {
+			result += (daysRented - 1) * Movie.EXTRA_CHARGE_CHILDREN;
+		}
+		return result;
 	}
 	
 	public int getFrequentRenterPoints(int daysRented) {
 
 		if(this.movieType == MovieType.NEW_RELEASE) {
-			return price.getFrequentRenterPointsNewReleases(daysRented);
+			return this.getFrequentRenterPointsNewReleases(daysRented);
 		}
 		else {
-			return (int) price.getFrequentRenterPoints(daysRented);
+			return (int) this.getFrequentRenterPointsDefault(daysRented);
 		}
 	}
-	
-	public void setPrice(Price price) {
-		this.price = price;
+	public int getFrequentRenterPointsNewReleases(int daysRented) {
+		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_NEW_RELEASE) {
+			return Movie.FREQUENT_RENTER_POINTS_NEW_RELEASE;
+		} else {
+			return this.getFrequentRenterPointsDefault(daysRented);
+		}
 	}
+
+	public int getFrequentRenterPointsDefault(int daysRented) {
+		return Movie.FREQUENT_RENTER_POINTS;
+	}
+	
+
 	
 	public String getTitle() {
 		return title;

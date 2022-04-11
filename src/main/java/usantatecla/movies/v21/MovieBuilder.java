@@ -2,7 +2,7 @@ package usantatecla.movies.v21;
 
 import usantatecla.movies.v21.Movie;
 import usantatecla.movies.v21.MovieType;
-import usantatecla.movies.v21.Price;
+
 
 public class MovieBuilder {
 
@@ -40,6 +40,6 @@ public class MovieBuilder {
 
     public Movie build() {
 
-        return new Movie(this.title, new Price(), this.movieType);
+        return new Movie(this.title, this.movieType);
     }
 }
