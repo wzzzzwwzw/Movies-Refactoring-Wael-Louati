@@ -2,14 +2,18 @@ package usantatecla.movies.v21;
 
 public class RegularMovie extends Movie{
 
+    private static final double CHARGE = 2.0;
+    private static final double EXTRA_CHARGE = 1.5;
+    private static final int DAYS_RENTED_THRESHOLD = 2;
+
     public RegularMovie(String title) {
         super(title);
     }
 
     public double getCharge(int daysRented) {
-        double result = Movie.CHARGE_REGULAR;
-        if (daysRented > Movie.DAYS_RENTED_THRESHOLD_REGULAR) {
-            result += (daysRented - Movie.DAYS_RENTED_THRESHOLD_REGULAR) * Movie.EXTRA_CHARGE_REGULAR;
+        double result = RegularMovie.CHARGE;
+        if (daysRented > RegularMovie.DAYS_RENTED_THRESHOLD) {
+            result += (daysRented - RegularMovie.DAYS_RENTED_THRESHOLD) * RegularMovie.EXTRA_CHARGE;
         }
         return result;
     }

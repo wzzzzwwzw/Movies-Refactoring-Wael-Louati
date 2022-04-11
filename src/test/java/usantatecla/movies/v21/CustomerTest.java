@@ -1,179 +1,297 @@
 package usantatecla.movies.v21;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CustomerTest {
 
-	@Test
-	public void withoutRentalsTest() {
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).build();
+	private static String CUSTOMER_NAME = "customerName";
 
-		String statement = customer.statement();
+	private usantatecla.movies.v21.CustomerBuilder getCustomerBuilder() {
+		return new usantatecla.movies.v21.CustomerBuilder().name(CustomerTest.CUSTOMER_NAME);
+	}
 
-		String result = new StatementBuilder().customerName(customerName)
-				.totalAmount(0).frequentRenterPoints(0).build();
-		assertEquals(result, statement);
+	private usantatecla.movies.v21.StatementBuilder getStatementBuilder() {
+		return new usantatecla.movies.v21.StatementBuilder().customerName(CustomerTest.CUSTOMER_NAME);
 	}
 
 	@Test
-	public void regularRental1DayTest() {
+	public void givenCustomerWhenStatementThenCorrectCustomerName() {
+		Customer customer = this.getCustomerBuilder().build();
+
+		String statement = customer.statement();
+
+		assertEquals(new usantatecla.movies.models.StatementDeserializer(statement).getCustomerName(), customer.getName());
+	}
+
+	@Test
+	public void givenCustomerWhenStatementThenCorrectMovieName() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).regular().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(1).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 2)
-				.totalAmount(2).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertEquals(new usantatecla.movies.models.StatementDeserializer(statement).getMovieNames().get(0), movieName);
 	}
-	
+
 	@Test
-	public void regularRental2DayTest() {
+	public void givenCustomerWithoutRentalsWhenStatementThenCorrectTotalAmount() {
+		Customer customer = this.getCustomerBuilder().build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 0);
+	}
+
+	@Test
+	public void givenCustomerWithoutRentalsWhenStatementThenCorrectFrequentRenterPoints() {
+		Customer customer = this.getCustomerBuilder().build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 0);
+	}
+
+	@Test
+	public void givenCustomerWith1DayRentalWhenStatementThenCorrectTotalAmount() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).regular().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(2).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 2)
-				.totalAmount(2).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 2);
 	}
 
 	@Test
-	public void regularRental3DayTest() {
+	public void givenCustomerWith1DayRentalWhenStatementThenCorrectFrequentRenterPoints() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).regular().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(3).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 3.5)
-				.totalAmount(3.5).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
 	}
-	
+
 	@Test
-	public void newReleaseRental1DayTest() {
+	public void givenCustomerWith2DayRentalWhenStatementThenCorrectTotalAmount() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).regular().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(2).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 2);
+	}
+
+	@Test
+	public void givenCustomerWith2DayRentalWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).regular().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(2).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
+	}
+
+	@Test
+	public void givenCustomerWith3DayRentalWhenStatementThenCorrectTotalAmount() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).regular().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 3.5);
+	}
+
+	@Test
+	public void givenCustomerWith3DayRentalWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).regular().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
+	}
+
+	@Test
+	public void givenCustomerWithNewReleaseMovie1RentalDayWhenStatementThenCorrectTotalAmount() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(1).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 3)
-				.totalAmount(3).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 3);
 	}
-	
+
 	@Test
-	public void newReleaseRental2DayTest() {
+	public void givenCustomerWithNewReleaseMovie1RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(2).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 3)
-				.totalAmount(3).frequentRenterPoints(2).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
 	}
-	
+
 	@Test
-	public void newReleaseRental3DayTest() {
+	public void givenCustomerWithNewReleaseMovie2RentalDayWhenStatementThenCorrectTotalAmount() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(3).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(2).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 3)
-				.totalAmount(3).frequentRenterPoints(2).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 3);
+	}
+
+	@Test
+	public void givenCustomerWithNewReleaseMovie2RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(2).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 2);
+	}
+
+	@Test
+	public void givenCustomerWithNewReleaseMovie3RentalDayWhenStatementThenCorrectTotalAmount() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 3);
+	}
+
+	@Test
+	public void givenCustomerWithNewReleaseMovie3RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).newRelease().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 2);
 	}
 	
 	@Test
-	public void childrensRental1DayTest() {
+	public void givenCustomerWithChildrenMovie1RentalDayWhenStatementThenCorrectTotalAmount() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).childrens().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(1).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 1.5)
-				.totalAmount(1.5).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 1.5);
 	}
-	
+
 	@Test
-	public void childrensRental3DayTest() {
+	public void givenCustomerWithChildrenMovie1RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).childrens().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(3).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(1).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 1.5)
-				.totalAmount(1.5).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
 	}
-	
+
 	@Test
-	public void childrensRental4DayTest() {
+	public void givenCustomerWithChildrenMovie3RentalDayWhenStatementThenCorrectTotalAmount() {
 		String movieName = "movieName";
 		Movie movie = new MovieBuilder().title(movieName).childrens().build();
-		Rental rental = new RentalBuilder().movie(movie).daysRented(4).build();
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName).rental(rental).build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName).movie(movieName, 6)
-				.totalAmount(6).frequentRenterPoints(1).build();
-		assertEquals(result, statement);
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 1.5);
+	}
+
+	@Test
+	public void givenCustomerWithChildrenMovie3RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).childrens().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(3).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
+	}
+
+	@Test
+	public void givenCustomerWithChildrenMovie4RentalDayWhenStatementThenCorrectTotalAmount() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).childrens().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(4).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getTotalCharge() == 6);
+	}
+
+	@Test
+	public void givenCustomerWithChildrenMovie4RentalDayWhenStatementThenCorrectFrequentRenterPoints() {
+		String movieName = "movieName";
+		Movie movie = new MovieBuilder().title(movieName).childrens().build();
+		Rental rental = new usantatecla.movies.v21.RentalBuilder().movie(movie).daysRented(4).build();
+		Customer customer = this.getCustomerBuilder().rental(rental).build();
+
+		String statement = customer.statement();
+
+		assertTrue(new usantatecla.movies.models.StatementDeserializer(statement).getFrequentRenterPoints() == 1);
 	}
 	
 	@Test
 	public void rentalTest() {
 		String regularMovieName = "regularMovieName";
 		Movie regularMovie = new MovieBuilder().title(regularMovieName).regular().build();
-		Rental regularRental = new RentalBuilder().movie(regularMovie).daysRented(10).build();
+		Rental regularRental = new usantatecla.movies.v21.RentalBuilder().movie(regularMovie).daysRented(10).build();
 		
 		String newReleaseMovieName = "newReleaseMovieName";
 		Movie newReleaseMovie = new MovieBuilder().title(newReleaseMovieName).newRelease().build();
-		Rental newReleaseRental = new RentalBuilder().movie(newReleaseMovie).daysRented(10).build();
+		Rental newReleaseRental = new usantatecla.movies.v21.RentalBuilder().movie(newReleaseMovie).daysRented(10).build();
 		
 		String childrensMovieName = "childrensMovieName";
 		Movie childrensMovie = new MovieBuilder().title(childrensMovieName).childrens().build();
-		Rental childrensRental = new RentalBuilder().movie(childrensMovie).daysRented(10).build();
+		Rental childrensRental = new usantatecla.movies.v21.RentalBuilder().movie(childrensMovie).daysRented(10).build();
 		
-		String customerName = "customerName";
-		Customer customer = new CustomerBuilder().name(customerName)
+		Customer customer = this.getCustomerBuilder()
 				.rental(regularRental).rental(newReleaseRental).rental(childrensRental).build();
 
 		String statement = customer.statement();
 
-		String result = new StatementBuilder().customerName(customerName)
+		String result = this.getStatementBuilder()
 				.movie(regularMovieName, 14).movie(newReleaseMovieName, 3).movie(childrensMovieName, 15)
 				.totalAmount(32).frequentRenterPoints(4).build();
 		assertEquals(result, statement);

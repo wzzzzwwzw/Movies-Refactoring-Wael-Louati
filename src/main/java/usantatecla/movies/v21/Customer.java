@@ -7,7 +7,7 @@ import java.util.List;
 public class Customer {
 
 	private String name;
-	
+
 	private List<Rental> rentals;
 
 	public Customer(String name) {
@@ -40,7 +40,7 @@ public class Customer {
 				.mapToDouble(rental -> rental.getCharge())
 				.sum();
 	}
-	
+
 	private int getTotalFrequentRenterPoints() {
 		return this.rentals.stream()
 				.mapToInt(rental -> rental.getFrequentRenterPoints())
