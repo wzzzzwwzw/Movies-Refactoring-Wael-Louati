@@ -75,14 +75,14 @@ public class Movie {
 			return this.getFrequentRenterPointsNewReleases(daysRented);
 		}
 		else {
-			return (int) this.getFrequentRenterPointsDefault(daysRented);
+			return Movie.FREQUENT_RENTER_POINTS;
 		}
 	}
 	public int getFrequentRenterPointsNewReleases(int daysRented) {
 		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_NEW_RELEASE) {
 			return Movie.FREQUENT_RENTER_POINTS_NEW_RELEASE;
 		} else {
-			return this.getFrequentRenterPointsDefault(daysRented);
+			return Movie.FREQUENT_RENTER_POINTS;
 		}
 	}
 
