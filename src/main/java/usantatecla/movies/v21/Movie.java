@@ -1,6 +1,6 @@
 package usantatecla.movies.v21;
 
-public class Movie {
+public abstract class Movie {
 
 	protected static final double CHARGE_REGULAR = 2.0;
 
@@ -24,51 +24,18 @@ public class Movie {
 
 
 
+	protected String title;
+	protected MovieType movieType;
 
-	private String title;
-
-	private MovieType movieType;
-
-	public Movie(String title, MovieType movieType) {
+	public  Movie(String title, MovieType movieType) {
 		this.title = title;
 
 		this.movieType = movieType;
 	}
 
+	public abstract double getCharge(int daysRented);
 
-	public double getCharge(int daysRented) {
 
-		if(this.movieType == MovieType.REGULAR) {
-			return this.getChargeRegular(daysRented);
-		}
-		else if(this.movieType == MovieType.NEW_RELEASE) {
-			return this.getChargeNewReleases(daysRented);
-		}
-		else {
-			return this.getChargeChildren(daysRented);
-		}
-	}
-
-	public double getChargeRegular(int daysRented) {
-		double result = Movie.CHARGE_REGULAR;
-		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_REGULAR) {
-			result += (daysRented - Movie.DAYS_RENTED_THRESHOLD_REGULAR) * Movie.EXTRA_CHARGE_REGULAR;
-		}
-		return result;
-	}
-
-	public double getChargeNewReleases(int daysRented) {
-		return Movie.CHARGE_NEW_RELEASE;
-	}
-
-	public double getChargeChildren(int daysRented) {
-		double result = Movie.CHARGE_CHILDREN;
-		if (daysRented > Movie.DAYS_RENTED_THRESHOLD_CHILDREN) {
-			result += (daysRented - 1) * Movie.EXTRA_CHARGE_CHILDREN;
-		}
-		return result;
-	}
-	
 	public int getFrequentRenterPoints(int daysRented) {
 
 		if(this.movieType == MovieType.NEW_RELEASE) {

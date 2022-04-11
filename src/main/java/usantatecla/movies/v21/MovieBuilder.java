@@ -9,7 +9,7 @@ public class MovieBuilder {
     private String title;
 
 
-    private MovieType movieType;
+    private Movie movie;
 
     public MovieBuilder() {
         title = "movieName";
@@ -22,24 +22,24 @@ public class MovieBuilder {
 
     public MovieBuilder childrens() {
 
-        this.movieType = MovieType.CHILDREN;
+        this.movie = new ChildrenMovie(this.title);
         return this;
     }
 
     public MovieBuilder regular() {
 
-        this.movieType = MovieType.REGULAR;
+        this.movie = new RegularMovie(this.title);
         return this;
     }
 
     public MovieBuilder newRelease() {
 
-        this.movieType = MovieType.NEW_RELEASE;
+        this.movie = new NewReleaseMovie(this.title);
         return this;
     }
 
     public Movie build() {
 
-        return new Movie(this.title, this.movieType);
+        return  this.movie;
     }
 }
