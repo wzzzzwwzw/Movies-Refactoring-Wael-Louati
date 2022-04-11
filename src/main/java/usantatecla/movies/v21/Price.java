@@ -1,6 +1,6 @@
 package usantatecla.movies.v21;
 
-public abstract class Price {
+public  class Price {
 
 	protected static final double CHARGE_REGULAR = 2.0;
 
@@ -21,8 +21,38 @@ public abstract class Price {
 	protected static final double EXTRA_CHARGE_CHILDREN = 1.5;
 
 	protected static final int DAYS_RENTED_THRESHOLD_CHILDREN = 3;
-	
-	public abstract double getCharge(int daysRented);
+
+	public double getCharge(int daysRented) {
+		return 0;
+	}
+
+	public double getChargeRegular(int daysRented) {
+		double result = Price.CHARGE_REGULAR;
+		if (daysRented > Price.DAYS_RENTED_THRESHOLD_REGULAR) {
+			result += (daysRented - Price.DAYS_RENTED_THRESHOLD_REGULAR) * Price.EXTRA_CHARGE_REGULAR;
+		}
+		return result;
+	}
+
+	public double getChargeNewReleases(int daysRented) {
+		return Price.CHARGE_NEW_RELEASE;
+	}
+
+	public int getFrequentRenterPointsNewReleases(int daysRented) {
+		if (daysRented > Price.DAYS_RENTED_THRESHOLD_NEW_RELEASE) {
+			return Price.FREQUENT_RENTER_POINTS_NEW_RELEASE;
+		} else {
+			return this.getFrequentRenterPoints(daysRented);
+		}
+	}
+
+	public double getChargeChildren(int daysRented) {
+		double result = Price.CHARGE_CHILDREN;
+		if (daysRented > Price.DAYS_RENTED_THRESHOLD_CHILDREN) {
+			result += (daysRented - 1) * Price.EXTRA_CHARGE_CHILDREN;
+		}
+		return result;
+	}
 	
 	public int getFrequentRenterPoints(int daysRented) {
 		return Price.FREQUENT_RENTER_POINTS;

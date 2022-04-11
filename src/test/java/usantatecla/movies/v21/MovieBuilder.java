@@ -5,6 +5,8 @@ public class MovieBuilder {
 	private String title;
 	
 	private Price price;
+
+	private MovieType movieType;
 	
 	public MovieBuilder() {
 		title = "movieName";
@@ -31,6 +33,6 @@ public class MovieBuilder {
 	}
 	
 	public Movie build() {
-		return new Movie(title, price);
+		return new Movie(this.title, new Price(), this.movieType);
 	}
 }
