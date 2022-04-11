@@ -20,7 +20,7 @@ public abstract class Movie {
 
 	protected static final int DAYS_RENTED_THRESHOLD_CHILDREN = 3;
 
-	static final int FREQUENT_RENTER_POINTS = 1;
+	protected static final int FREQUENT_RENTER_POINTS = 1;
 
 
 
