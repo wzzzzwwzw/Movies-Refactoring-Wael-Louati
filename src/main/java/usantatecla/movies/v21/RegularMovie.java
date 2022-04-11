@@ -3,7 +3,7 @@ package usantatecla.movies.v21;
 public class RegularMovie extends Movie{
 
     public RegularMovie(String title) {
-        super(title, MovieType.REGULAR);
+        super(title);
     }
 
     public double getCharge(int daysRented) {

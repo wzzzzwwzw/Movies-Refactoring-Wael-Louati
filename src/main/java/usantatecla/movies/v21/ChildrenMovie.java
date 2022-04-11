@@ -3,7 +3,7 @@ package usantatecla.movies.v21;
 public class ChildrenMovie extends  Movie{
 
     public ChildrenMovie(String title) {
-        super(title, MovieType.CHILDREN);
+        super(title);
     }
 
     public double getCharge(int daysRented) {

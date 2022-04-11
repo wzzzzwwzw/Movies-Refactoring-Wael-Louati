@@ -7,7 +7,7 @@ public class NewReleaseMovie extends Movie{
     private static final int FREQUENT_RENTER_POINTS = 2;
 
     public NewReleaseMovie(String title) {
-        super(title, MovieType.NEW_RELEASE);
+        super(title);
     }
 
     public double getCharge(int daysRented) {

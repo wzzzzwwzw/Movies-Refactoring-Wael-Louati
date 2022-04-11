@@ -27,7 +27,7 @@ public abstract class Movie {
 	protected String title;
 	protected MovieType movieType;
 
-	public  Movie(String title, MovieType movieType) {
+	public  Movie(String title) {
 		this.title = title;
 
 		this.movieType = movieType;
